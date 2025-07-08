@@ -39,10 +39,9 @@ public:
 	 */
 	template<class T>
 	void free(T *mem, u32 size=1) {
-		
-		// for(int i = 0; i < size; i++)
-		// 	(mem+i)->~T();
-		this->free(mem, size*sizeof(T));
+		for(int i = 0; i < size; i++)
+		 	(mem+i)->~T();
+		this->free_mem(SC_MEM_POINTER(mem), size*sizeof(T));
 	}
 
 public:

@@ -1,5 +1,6 @@
 #include "../external/doctest.h"
 #include "snowcrash/container/allocator.hpp"
+#include "snowcrash/container/array.hpp"
 #include "snowcrash/core/core.hpp"
 #include <iostream>
 
@@ -39,4 +40,41 @@ TEST_CASE("allocators") {
 		REQUIRE(arr[4] == 234234);
 		REQUIRE(arr1[2] == 122);
 	}
+}
+
+class foo {
+public:
+	foo() {
+		std::cout << "constructor!" << std::endl;
+	}
+
+	foo(int _a)
+		: a(_a) {
+		
+		
+	}
+
+	~foo() {
+		std::cout << "destructor!" << std::endl;
+	}
+
+public:
+	int a {1};
+};
+
+TEST_CASE("array") {
+	MemoryBlock block(1204);
+	FreeListAllocator fa(&block);
+
+	Array<foo, 4> fooArr(&fa);
+
+	fooArr.for_each([](foo &foo, int index){
+		foo.a += 2;
+	});
+
+	fooArr.for_each([](foo &foo, int index){
+		REQUIRE(foo.a == 3);
+	});
+
+	REQUIRE(fooArr.get(0).a == 3);
 }
