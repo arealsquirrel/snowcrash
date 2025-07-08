@@ -2,6 +2,7 @@
 #include "snowcrash/container/allocator.hpp"
 #include "snowcrash/core/core.hpp"
 #include "snowcrash/core/logging.hpp"
+#include "snowcrash/engine/engine.hpp"
 #include <iostream>
 
 using namespace snowcrash;
@@ -12,5 +13,7 @@ int main(int args, char **argv) {
 
 	SC_CORE_TRACE("tracing {}", 2);
 	SC_CORE_WARN("dumbass");
+
+	Engine engine({100,100,100});
 }
 

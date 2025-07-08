@@ -68,8 +68,6 @@ FreeListAllocator::FreeListAllocator(const MemoryBlock *block)
 	};
 
 	m_start->next = m_end;
-
-	// std::cout << "";
 }
 
 FreeListAllocator::~FreeListAllocator() = default;
@@ -79,7 +77,6 @@ char *FreeListAllocator::allocate_mem(u32 size) {
 
 	Header *current = m_start;
 	u32 totalSize = size + sizeof(Header);
-	// std::cout << "looking for block with size" <<>
 	while(current != m_end) {
 		if(current->free == false || current->size < totalSize) {
 			current = current->next;
@@ -96,8 +93,6 @@ char *FreeListAllocator::allocate_mem(u32 size) {
 
 		current = current->next;
 	}
-
-
 
 	Header *split = new (
 			SC_MEM_POINTER(best+1) + size

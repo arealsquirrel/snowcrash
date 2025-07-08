@@ -42,6 +42,7 @@
 #endif
 
 #define SC_MEM_POINTER(var) reinterpret_cast<char*>(var)
+#define SC_VERSION "1.0.0"
 
 namespace SC {
 
