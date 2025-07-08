@@ -2,6 +2,9 @@
 #ifndef SC_CORE_HPP
 #define SC_CORE_HPP
 
+#include <format>
+#include <functional>
+
 #define SC snowcrash
 
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
@@ -36,7 +39,11 @@
 #ifdef DEBUG
 #define SC_DEBUG
 #define SC_LOGGING
-#define SC_ASSERT
+#define SC_ENABLE_ASSERT
+
+#include <signal.h>
+#define SC_CRASH raise(SIGSEGV) // this might be compiler specific so we wanna be carefull
+
 #else
 
 #endif

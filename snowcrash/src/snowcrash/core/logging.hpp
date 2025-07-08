@@ -132,5 +132,19 @@ constexpr const char *log_level_to_string(enum LogLevel level) {
 
 #endif
 
+#ifdef SC_ENABLE_ASSERT
+
+#define SC_ASSERT(cond, ...) if(!(cond)) { \
+								SC_CORE_ERROR("ASSERT FAILED :3 ({})", #cond); \
+								SC_CORE_ERROR(__VA_ARGS__); \
+								SC_CRASH; \
+							}
+
+#else
+
+#define SC_ASSERT(cond, mess)
+
+#endif
+
 #endif
 

@@ -21,10 +21,14 @@ public:
 	Engine(EngineSpecs specs);
 	~Engine();
 
-private:
-	MemoryBlock m_engineMemory;
+public:
+	FreeListAllocator *get_allocator_persistent() { return &m_persistentMemoryAllocator; }
+	FreeListAllocator *get_allocator_dynamic() { return &m_dynamicMemoryAllocator; }
+	StackAllocator *get_allocator_frame() { return &m_frameAllocator; }
 
-	
+private:
+	/* ------------ MEMORY ------------ */ 
+	MemoryBlock m_engineMemory;
 	MemoryBlock m_persistentMemory;
 	FreeListAllocator m_persistentMemoryAllocator;
 
