@@ -17,10 +17,10 @@ public:
 	~Allocator();
 
 public:
-	virtual char *allocate_mem(u32 size) = 0;
-	virtual void free_mem(char *mem, u32 size) = 0;
+	virtual char *allocate_mem(u32 size);
+	virtual void free_mem(char *mem, u32 size);
 
-	virtual u32 get_allocated_mem() const = 0;
+	virtual u32 get_allocated_mem() const;
 
 public:
 	/*
@@ -105,6 +105,9 @@ public:
 
 	Header *get_start() const { return m_start; }
 	Header *get_end() const { return m_end; }
+
+private:
+	void merge_freed(Header *header);
 
 private:
 	Header *m_start;

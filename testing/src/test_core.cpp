@@ -1,6 +1,7 @@
 #include "../external/doctest.h"
 #include "snowcrash/container/allocator.hpp"
 #include "snowcrash/container/array.hpp"
+#include "snowcrash/container/arraylist.hpp"
 #include "snowcrash/core/core.hpp"
 #include <iostream>
 
@@ -44,19 +45,14 @@ TEST_CASE("allocators") {
 
 class foo {
 public:
-	foo() {
-		std::cout << "constructor!" << std::endl;
-	}
+	foo() = default;
+
+	foo(const foo &f) = default;
 
 	foo(int _a)
-		: a(_a) {
-		
-		
-	}
+		: a(_a) {}
 
-	~foo() {
-		std::cout << "destructor!" << std::endl;
-	}
+	~foo() = default;
 
 public:
 	int a {1};
@@ -78,3 +74,29 @@ TEST_CASE("array") {
 
 	REQUIRE(fooArr.get(0).a == 3);
 }
+
+TEST_CASE("arraylist") {
+	MemoryBlock block(1204);
+	FreeListAllocator fa(&block);
+
+	ArrayList<foo> array(&fa);
+	array.add(foo(5));
+	array.add(foo(2));
+	array.add(foo(3));
+
+	ArrayList<foo> newArray(array);
+	newArray.add(foo(1));
+	newArray.remove();
+	newArray.add(foo(3));
+	newArray[0].a = 4;
+
+	REQUIRE(array[0].a == 5);
+	REQUIRE(array.get_count() == 3);
+	REQUIRE(array.get_size() == 3);
+	REQUIRE(newArray.get_size() == 4);
+	REQUIRE(newArray[0].a == 4);
+	REQUIRE(newArray.get_count() == 4);
+
+	newArray.for_each([](foo &f, u32 i){ std::cout << f.a << std::endl; });
+}
+
