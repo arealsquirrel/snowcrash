@@ -30,6 +30,8 @@
 #define SC_BIT_32
 #endif
 #endif
+
+#define DEBUG
 	
 #ifdef DEBUG
 #define SC_DEBUG

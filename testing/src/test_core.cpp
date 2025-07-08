@@ -2,6 +2,7 @@
 #include "snowcrash/container/allocator.hpp"
 #include "snowcrash/container/array.hpp"
 #include "snowcrash/container/arraylist.hpp"
+#include "snowcrash/container/string.hpp"
 #include "snowcrash/core/core.hpp"
 #include <iostream>
 
@@ -96,7 +97,19 @@ TEST_CASE("arraylist") {
 	REQUIRE(newArray.get_size() == 4);
 	REQUIRE(newArray[0].a == 4);
 	REQUIRE(newArray.get_count() == 4);
+}
 
-	newArray.for_each([](foo &f, u32 i){ std::cout << f.a << std::endl; });
+TEST_CASE("string") {
+	MemoryBlock block(1204);
+	FreeListAllocator fa(&block);
+
+	String str(&fa, "hello");
+	String sagain(str);
+	sagain = "w";
+	
+	REQUIRE(str.equals("hello"));
+	REQUIRE(sagain.equals("w"));
+	REQUIRE(str.get_size() == 5);
+	REQUIRE(sagain.get_size() == 1);
 }
 
