@@ -3,12 +3,15 @@
 #define SC_OBJECT_HPP
 
 #include "snowcrash/container/allocator.hpp"
+#include "snowcrash/core/logging.hpp"
 #include "snowcrash/core/uuid.hpp"
-#include "snowcrash/engine/engine.hpp"
+// #include "snowcrash/engine/engine.hpp"
 #include <functional>
 #include <snowcrash/core/core.hpp>
 
 namespace SC {
+
+class Engine;
 
 struct TypeInfo {
 	const TypeInfo *parent;
@@ -30,7 +33,47 @@ public:
 	UUID get_instance_id() const { return m_instanceID; }
 	const Allocator *get_allocator() const { return m_allocator; }
 
-	
+	/*
+	 * T must inherit from object
+	 */
+	template<typename T>
+	bool instance_of() const {
+		const TypeInfo *info = get_typeinfo();
+		while(info != nullptr) {
+			if(info->typeID == T::get_static_typeinfo().typeID) {
+				return true;
+			}
+
+			info = info->parent;
+		}
+
+		return false;
+	}
+
+	template<typename T>
+	inline T *cast() {
+		SC_ASSERT(instance_of<T>(), "this object {} is not an instance of T", *this);
+		return dynamic_cast<T*>(this);
+	}
+
+	template<typename T>
+	inline const T *cast() const {
+		SC_ASSERT(instance_of<T>(), "this object {} is not an instance of T", *this);
+		return dynamic_cast<T*>(this);
+	}
+
+public:
+
+	/*
+	 * adds an interface for you to specify how to 
+	 * compare this object to others
+	 *
+	 * generaly, negative is less than
+	 * 			 positabe is more than
+	 *
+	 * this default one returns 0 of the objects have the same instance ID
+	 */
+	i8 compare(const Object &object) const;
 
 private:
 	UUID m_instanceID;

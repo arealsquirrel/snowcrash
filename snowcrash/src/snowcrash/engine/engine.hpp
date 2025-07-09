@@ -3,6 +3,7 @@
 #define SC_ENGINE_HPP
 
 #include "snowcrash/container/allocator.hpp"
+#include "snowcrash/core/object.hpp"
 #include <snowcrash/core/core.hpp>
 
 namespace SC {
@@ -16,7 +17,9 @@ struct EngineSpecs {
 /*
  * is a monolith class that holds all that is needed to run the engine
  */
-class Engine {
+class Engine : public Object{
+SC_OBJECT(Engine, Object)
+
 public:
 	Engine(EngineSpecs specs);
 	~Engine();
@@ -25,6 +28,8 @@ public:
 	FreeListAllocator *get_allocator_persistent() { return &m_persistentMemoryAllocator; }
 	FreeListAllocator *get_allocator_dynamic() { return &m_dynamicMemoryAllocator; }
 	StackAllocator *get_allocator_frame() { return &m_frameAllocator; }
+
+	void dump_mem() const;
 
 private:
 	/* ------------ MEMORY ------------ */ 

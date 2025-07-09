@@ -10,5 +10,9 @@ Object::Object(Engine *engine, Allocator *allocator)
 
 Object::~Object() = default;
 
+i8 Object::compare(const Object &object) const {
+	return (object.get_typeinfo()->typeID == get_static_typeinfo()->typeID) ? 0 : 1;
+}
+
 }
 

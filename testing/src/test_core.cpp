@@ -4,7 +4,9 @@
 #include "snowcrash/container/arraylist.hpp"
 #include "snowcrash/container/string.hpp"
 #include "snowcrash/core/core.hpp"
+#include <cstring>
 #include <iostream>
+#include <snowcrash/container/hashmap.hpp>
 
 using namespace snowcrash;
 
@@ -111,5 +113,31 @@ TEST_CASE("string") {
 	REQUIRE(sagain.equals("w"));
 	REQUIRE(str.get_size() == 5);
 	REQUIRE(sagain.get_size() == 1);
+}
+
+TEST_CASE("hashmap") {
+	MemoryBlock block(1204);
+	Allocator fa(&block);
+
+	HashMap<u32, String> map(&fa, 2);
+
+	map.add({1, String(&fa, "one")});
+	map.add({2, String(&fa, "two")});
+	map.add({3, String(&fa, "three")});
+	map.add({4, String(&fa, "four")});
+	map.remove(3);
+	map.add({5, String(&fa, "five")});
+
+	REQUIRE(map.has_key(10) == false);
+	REQUIRE(map.has_key(2) == true);
+	REQUIRE(strcmp("one", map[1].second.c_str()) == 0);
+	REQUIRE(strcmp("five", map[5].second.c_str()) == 0);
+
+	map.for_each([](auto &pair){
+		std::cout << " [" 
+				  << pair.first << "|" << pair.second.c_str()
+				  << "]" << std::endl; 
+
+	});
 }
 

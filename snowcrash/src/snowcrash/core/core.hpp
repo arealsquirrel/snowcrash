@@ -51,6 +51,13 @@
 #define SC_MEM_POINTER(var) reinterpret_cast<char*>(var)
 #define SC_VERSION "1.0.0"
 
+/*
+ * converts the sizes to bytes
+ */
+#define SC_KILLOBYTE(num) num * 1000
+#define SC_MEGABYTE(num) SC_KILLOBYTE(num) * 1000
+
+
 namespace SC {
 
 // type sizes as defined by this
