@@ -19,6 +19,9 @@ UUID::UUID() {
 UUID::UUID(const UUID &id) 
 	: uuid(id) {}
 
+UUID::UUID(u64 id)
+	: uuid(id) {}
+
 UUID::~UUID() = default;
 
 }

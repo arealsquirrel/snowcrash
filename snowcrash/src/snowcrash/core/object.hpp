@@ -75,7 +75,7 @@ public:
 	 */
 	i8 compare(const Object &object) const;
 
-private:
+protected:
 	UUID m_instanceID;
 	Engine *m_engine;
 	Allocator *m_allocator;

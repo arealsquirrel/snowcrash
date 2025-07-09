@@ -10,6 +10,7 @@ struct UUID {
 public:
 	UUID();
 	UUID(const UUID &id);
+	UUID(u64 id);
 	~UUID();
 
 	operator u64() const { return uuid; }
@@ -19,6 +20,8 @@ public:
 public:
 	u64 uuid;
 };
+
+// inline constexpr UUID nullUUID(1);
 
 }
 

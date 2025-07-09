@@ -12,6 +12,7 @@ struct String {
 public:
 	String(Allocator *allocator);
 	String(Allocator *allocator, const char *string);
+	String(Allocator *allocator, u32 size);
 	String(const String &string);
 	~String();
 

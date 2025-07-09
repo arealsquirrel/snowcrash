@@ -1,5 +1,6 @@
 
 #include "string.hpp"
+#include "snowcrash/container/allocator.hpp"
 #include <algorithm>
 #include <cstring>
 
@@ -9,6 +10,12 @@ String::String(Allocator *allocator)
 	: m_allocator(allocator) {
 
 	m_size = 0;
+}
+
+String::String(Allocator *allocator, u32 size) 
+	: m_allocator(allocator) {
+	
+	resize(size);
 }
 
 String::String(Allocator *allocator, const char *string)
