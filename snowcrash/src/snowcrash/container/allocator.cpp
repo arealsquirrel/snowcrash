@@ -119,7 +119,6 @@ void FreeListAllocator::merge_freed(Header *header) {
 		header->size += header->next->size + sizeof(Header);
 		header->next = header->next->next;
 		header->next->prev = header;
-		merge_freed(header);
 	}
 
 	if(header != m_start && header->prev->free) {
@@ -127,7 +126,6 @@ void FreeListAllocator::merge_freed(Header *header) {
 		h->size += header->size + sizeof(Header);
 		h->next = header->next;
 		h->next->prev = h;
-		merge_freed(h);
 	}
 }
 

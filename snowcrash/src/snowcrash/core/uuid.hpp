@@ -21,8 +21,6 @@ public:
 	u64 uuid;
 };
 
-// inline constexpr UUID nullUUID(1);
-
 }
 
 namespace std {

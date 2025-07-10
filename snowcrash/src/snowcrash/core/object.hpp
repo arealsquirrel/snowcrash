@@ -22,7 +22,7 @@ struct TypeInfo {
 class Object {
 public:
 	explicit Object(Engine *engine, Allocator *allocator=nullptr);
-	~Object();
+	virtual ~Object();
 
 public:
 	virtual const TypeInfo *get_typeinfo() const { return get_static_typeinfo(); }

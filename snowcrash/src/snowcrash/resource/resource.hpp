@@ -41,7 +41,7 @@ public:
 		ResourceLoadError_ApiError
 	};
 
-	constexpr const char *load_error_to_string(ResourceLoadError error) {
+	static const char *load_error_to_string(ResourceLoadError error) {
 		switch (error) {
 			case ResourceLoadError_None: return "none";
 			case ResourceLoadError_ApiError: return "api error";
@@ -49,21 +49,25 @@ public:
 			case ResourceLoadError_PathDoesNotExist: return "path does not exist";
 			case ResourceLoadError_BadPermissions: return "bad permissions";
 		}
+
+		return "";
 	}
 
-	constexpr const char *load_state_to_string(ResourceLoadState state) {
+	static const char *load_state_to_string(ResourceLoadState state) {
 		switch(state) {
 			case ResourceLoadState_Unloaded: return "unloaded";
 			case ResourceLoadState_FullyLoaded: return "fully loaded";
 			case ResourceLoadState_Partialy: return "partialy loaded";
 		}
+
+		return "";
 	}
 		
 public:
 	Resource(Allocator *allocator, Engine *engine,
 			 String path, String name, UUID groupID=UUID(0));
 
-	~Resource();
+	virtual ~Resource();
 
 public:
 	/*
@@ -91,7 +95,7 @@ public:
 	 */
 	virtual void unload();
 
-private:
+public:
 	const char *get_path() const { return m_path.c_str(); }
 	const char *get_name() const { return m_name.c_str(); }
 	UUID get_groupid() const { return m_groupID; }
@@ -102,18 +106,18 @@ protected:
 	 * reads a file as characters and returns a char* 
 	 * YOU MUST FREE THIS MEMORY YOURSELF
 	 */
-	Pair<char*, u32> read_file_strings(ResourceLoadError *error);
+	Pair<char*, u32> read_file_strings(ResourceLoadError *error, const char *path);
 	
 	/*
 	 * reads a file as bytes and returns a char* 
 	 * YOU MUST FREE THIS MEMORY YOURSELF
 	 */
-	Pair<char*, u32> read_file_bytes(ResourceLoadError *error);
+	Pair<char*, u32> read_file_bytes(ResourceLoadError *error, const char *path);
 
 	/*
 	 * returns the json of the file 
 	 */
-	nlohmann::json read_file_json(ResourceLoadError *error);
+	nlohmann::json read_file_json(ResourceLoadError *error, const char *path);
 
 protected:
 	String m_path;

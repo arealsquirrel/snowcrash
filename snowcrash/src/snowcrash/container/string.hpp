@@ -4,6 +4,7 @@
 
 #include "snowcrash/container/allocator.hpp"
 #include <cstring>
+#include <functional>
 #include <snowcrash/core/core.hpp>
 
 namespace SC {
@@ -23,11 +24,16 @@ public:
 	u32 compare(const char *str) const { return strcmp(m_buffer, str); }
 	bool equals(const char *str) const { return (compare(str) == 0); }
 
+	// String substring(size_t pos, size_t len) const;
+	// String substring(int length) const { return substring(0, length); }
+
 	void operator =(const char *str) {
 		u32 len = strlen(str);
 		resize(len);
 		strcpy(m_buffer, str);
 	}
+
+	static u32 hash(const char *str);
 
 private:
 	/*
@@ -42,6 +48,15 @@ private:
 	Allocator *m_allocator;
 };
 
+}
+
+namespace std {
+	template<>
+	struct hash<SC::String> {
+		std::size_t operator()(const SC::String &string) {
+			return std::hash<const char *>()(string.c_str());
+		}
+	};
 }
 
 #endif

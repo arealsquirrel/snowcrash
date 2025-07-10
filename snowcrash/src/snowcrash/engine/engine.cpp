@@ -35,7 +35,7 @@ void Engine::dump_mem() const {
 	 		(void*)m_persistentMemory.get_memory(), m_persistentMemory.get_size());
 	FreeListAllocator::Header *node = m_persistentMemoryAllocator.get_start();
 	while(node != nullptr) {
-		SC_CORE_TRACE("\theader at {} size {}", (void*)node, node->size);
+		SC_CORE_TRACE("\theader at {}:[{}] size {}", (void*)node, node->free, node->size);
 		node = node->next;
 	}
 
@@ -44,7 +44,7 @@ void Engine::dump_mem() const {
 			(void*)m_dynamicMemory.get_memory(), m_dynamicMemory.get_size());
 	node = m_dynamicMemoryAllocator.get_start();
 	while(node != nullptr) {
-		SC_CORE_TRACE("\theader at {} size {}", (void*)node, node->size);
+		SC_CORE_TRACE("\theader at {}:[{}] size {}", (void*)node, node->free, node->size);
 		node = node->next;
 	}
 

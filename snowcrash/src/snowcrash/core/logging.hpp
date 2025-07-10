@@ -28,7 +28,7 @@ struct LogData {
 class LogSink {
 public:
 	LogSink(Allocator *allocator);
-	~LogSink();
+	virtual ~LogSink();
 
 public:
 	virtual void log(const LogData &data, const char *message, char *logName) = 0;
@@ -108,6 +108,8 @@ constexpr const char *log_level_to_string(enum LogLevel level) {
 		case LogLevel_Warn: return "warn";
 		case LogLevel_Error: return "error";
 	}
+
+	return "";
 }
 
 }

@@ -50,5 +50,15 @@ void String::resize(u32 size) {
 	m_size = size;
 }
 
+u32 String::hash(const char *str) {
+	u32 b = 1;
+	u32 len = strlen(str);
+	for (int i = 0; i < len; i++) {
+		b += i * 123123 + len;
+	}
+
+	return b;
+}
+
 }
 

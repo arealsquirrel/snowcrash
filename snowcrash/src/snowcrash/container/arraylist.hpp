@@ -91,6 +91,8 @@ public:
 	}
 
 	void reset() {
+		// if(empty()) return;
+
 		for(int i = 0; i < m_count; i++) {
 			m_buffer[i].~T();
 		}

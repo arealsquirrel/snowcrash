@@ -48,7 +48,7 @@ void Resource::unload() {
 	SC_ASSERT(m_loadState != ResourceLoadState_Unloaded, "resource already unloaded");
 }
 
-Pair<char*, u32> Resource::read_file_strings(ResourceLoadError *error) {
+Pair<char*, u32> Resource::read_file_strings(ResourceLoadError *error, const char *path) {
 	std::ifstream file(m_path.c_str());
 
 	if(file.fail()) {
@@ -67,7 +67,7 @@ Pair<char*, u32> Resource::read_file_strings(ResourceLoadError *error) {
 	return Pair<char*, u32>(buffer, size);
 }
 
-Pair<char*, u32> Resource::read_file_bytes(ResourceLoadError *error) {
+Pair<char*, u32> Resource::read_file_bytes(ResourceLoadError *error, const char *path) {
 	std::ifstream file(m_path.c_str(), std::ios::ate | std::ios::binary);
 	
 	if(file.fail()) {
@@ -85,7 +85,7 @@ Pair<char*, u32> Resource::read_file_bytes(ResourceLoadError *error) {
 }
 
 
-nlohmann::json Resource::read_file_json(ResourceLoadError *error) {
+nlohmann::json Resource::read_file_json(ResourceLoadError *error, const char *path) {
 	std::ifstream file(m_path.c_str());
 	nlohmann::json j;
 
